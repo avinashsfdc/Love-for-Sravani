@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love for Sravani ❤️</title>
+    <title>Love for Sravani</title>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #ffe6f2;
             margin: 0;
             padding: 0;
+            background: #ffe6f2;
+            font-family: Arial, sans-serif;
+            text-align: center;
             overflow-x: hidden;
         }
 
@@ -22,52 +22,33 @@
         }
 
         .question-box {
-            margin-top: 20px;
-            font-size: 22px;
+            margin-top: 30px;
+            font-size: 26px;
+            font-weight: bold;
             color: #b30059;
         }
 
-        .btn {
+        .btn-container {
+            margin-top: 30px;
+        }
+
+        button {
             padding: 12px 25px;
-            margin: 15px;
             font-size: 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #ff4da6;
             color: white;
-            position: relative;
         }
 
-        .yes-btn {
-            background-color: #28a745;
-        }
-
-        .no-btn {
-            background-color: #dc3545;
+        #noBtn {
+            background-color: #999;
+            color: white;
             position: absolute;
-        }
-
-        .photos {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .photos img {
-            width: 260px;
-            height: 260px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .message {
-            margin-top: 25px;
-            font-size: 24px;
-            color: #cc0066;
-            font-weight: bold;
         }
 
         /* Falling hearts */
@@ -75,13 +56,31 @@
             position: fixed;
             top: -10px;
             color: red;
-            font-size: 25px;
+            font-size: 20px;
             animation: fall 4s linear infinite;
         }
 
         @keyframes fall {
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Photo gallery */
+        .photos {
+            margin-top: 40px;
+        }
+
+        .photos img {
+            width: 250px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Hidden YouTube player */
+        #songFrame {
+            display: none;
         }
     </style>
 </head>
@@ -94,50 +93,50 @@
         Will you be mine forever?
     </div>
 
-    <button class="btn yes-btn" onclick="sayYes()">Yes</button>
-    <button class="btn no-btn" id="noBtn" onmouseover="moveNo()">No</button>
+    <div class="btn-container">
+        <button id="yesBtn" onclick="playSong()">YES</button>
+        <button id="noBtn" onmouseover="moveNo()">NO</button>
+    </div>
 
-    <div id="response" class="message"></div>
+    <!-- Hidden YouTube Player -->
+    <iframe id="songFrame" width="0" height="0"
+        src="https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1">
+    </iframe>
 
+    <!-- Photos Section -->
     <div class="photos">
         <img src="photo1.jpg" alt="Photo 1">
         <img src="photo2.jpg" alt="Photo 2">
         <img src="photo3.jpg" alt="Photo 3">
-       
+        <img src="photo4.jpg" alt="Photo 4">
     </div>
 
     <script>
-        function sayYes() {
-            document.getElementById("response").innerHTML = "You made me the happiest person ❤️";
-
-            setTimeout(() => {
-                window.location.href = "yes.html";
-            }, 2000);
-        }
-
-        function moveNo() {
-            const noBtn = document.getElementById("noBtn");
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            noBtn.style.left = x + "px";
-            noBtn.style.top = y + "px";
-        }
-
         // Falling hearts
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
             heart.innerHTML = "❤️";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.fontSize = (20 + Math.random() * 20) + "px";
             document.body.appendChild(heart);
 
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(createHeart, 300);
+
+        // Moving NO button
+        function moveNo() {
+            const btn = document.getElementById("noBtn");
+            btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
         }
 
-        setInterval(createHeart, 300);
+        // YES button plays song on same page
+        function playSong() {
+            document.getElementById("songFrame").style.display = "block";
+            alert("Yay! You said YES ❤️");
+        }
     </script>
 
 </body>
