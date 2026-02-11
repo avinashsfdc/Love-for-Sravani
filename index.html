@@ -66,14 +66,6 @@
             100% { transform: translateY(100vh); opacity: 0; }
         }
 
-        /* Visible tiny YouTube player */
-        #songFrame {
-            width: 60px;
-            height: 60px;
-            opacity: 0.01;
-            border: none;
-        }
-
         /* Surprise message */
         #surpriseMessage {
             margin-top: 30px;
@@ -137,6 +129,11 @@
             border-radius: 20px;
             transition: width 3s ease-in-out;
         }
+
+        /* Hide audio element */
+        #bgMusic {
+            display: none;
+        }
     </style>
 </head>
 
@@ -153,8 +150,10 @@
         <button id="noBtn" onmouseover="moveNo()">NO</button>
     </div>
 
-    <!-- YouTube Player -->
-    <iframe id="songFrame" allow="autoplay; encrypted-media"></iframe>
+    <!-- MP3 Audio -->
+    <audio id="bgMusic">
+        <source src="perfect.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- Surprise Message -->
     <div id="surpriseMessage">My love… you mean everything to me ❤️</div>
@@ -205,27 +204,22 @@
 
         // YES button logic
         function playSong(event) {
-            const frame = document.getElementById("songFrame");
+            const audio = document.getElementById("bgMusic");
 
-            // Your working YouTube link
-            frame.src = "https://www.youtube.com/embed/cNGjD0VG4R8?autoplay=1&mute=1";
+            audio.currentTime = 48; // Adjust if needed
+            audio.play();
 
-            // Heart explosion
             heartExplosion(event.clientX, event.clientY);
 
-            // Show message
             document.getElementById("surpriseMessage").style.opacity = 1;
 
-            // Show love meter
             const meter = document.getElementById("loveMeterContainer");
             meter.style.opacity = 1;
 
-            // Fill love meter
             setTimeout(() => {
                 document.getElementById("loveMeterFill").style.width = "100%";
             }, 300);
 
-            // Reveal photos
             setTimeout(() => {
                 document.getElementById("photoSection").style.opacity = 1;
             }, 1000);
