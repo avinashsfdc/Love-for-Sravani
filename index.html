@@ -58,6 +58,7 @@
             color: red;
             font-size: 20px;
             animation: fall 4s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes fall {
@@ -94,7 +95,47 @@
             height: auto;
             margin: 10px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ff4da6; }
+            to { box-shadow: 0 0 25px #ff99cc; }
+        }
+
+        /* Heart explosion */
+        .burst-heart {
+            position: absolute;
+            color: red;
+            font-size: 30px;
+            animation: burst 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes burst {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* Love Meter */
+        #loveMeterContainer {
+            width: 80%;
+            height: 25px;
+            background: #ffd6e8;
+            border-radius: 20px;
+            margin: 30px auto;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        #loveMeterFill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff4da6, #ff99cc);
+            border-radius: 20px;
+            transition: width 3s ease-in-out;
         }
     </style>
 </head>
@@ -108,7 +149,7 @@
     </div>
 
     <div class="btn-container">
-        <button id="yesBtn" onclick="playSong()">YES</button>
+        <button id="yesBtn" onclick="playSong(event)">YES</button>
         <button id="noBtn" onmouseover="moveNo()">NO</button>
     </div>
 
@@ -118,12 +159,15 @@
     <!-- Surprise Message -->
     <div id="surpriseMessage">My love… you mean everything to me ❤️</div>
 
-    <!-- Photos Section (hidden at first) -->
+    <!-- Love Meter -->
+    <div id="loveMeterContainer">
+        <div id="loveMeterFill"></div>
+    </div>
+
+    <!-- Photos Section -->
     <div class="photos" id="photoSection">
-        <img src="photo1.jpg" alt="Photo 1">
         <img src="photo2.jpg" alt="Photo 2">
         <img src="photo3.jpg" alt="Photo 3">
-        <img src="photo4.jpg" alt="Photo 4">
     </div>
 
     <script>
@@ -147,22 +191,47 @@
             btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
         }
 
-        // YES button: play song + show message + reveal photos
-        function playSong() {
+        // Heart explosion effect
+        function heartExplosion(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const h = document.createElement("div");
+                h.classList.add("burst-heart");
+                h.innerHTML = "💗";
+                h.style.left = x + "px";
+                h.style.top = y + "px";
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 1000);
+            }
+        }
+
+        // YES button: play song + show message + reveal photos + love meter + explosion
+        function playSong(event) {
             const frame = document.getElementById("songFrame");
 
-            // Convert Shorts link to embed autoplay
-            frame.src = "https://www.youtube.com/embed/RznQqCtVPBk?autoplay=1";
+            // Mobile-safe autoplay (muted first)
+            frame.src = "https://www.youtube.com/embed/RznQqCtVPBk?autoplay=1&mute=1";
 
             alert("Yay! You said YES ❤️");
+
+            // Heart explosion at click position
+            heartExplosion(event.clientX, event.clientY);
 
             // Show message
             document.getElementById("surpriseMessage").style.opacity = 1;
 
-            // Reveal photos after 1 second
+            // Show love meter
+            const meter = document.getElementById("loveMeterContainer");
+            meter.style.opacity = 1;
+
+            // Fill love meter
+            setTimeout(() => {
+                document.getElementById("loveMeterFill").style.width = "100%";
+            }, 500);
+
+            // Reveal photos
             setTimeout(() => {
                 document.getElementById("photoSection").style.opacity = 1;
-            }, 1000);
+            }, 1200);
         }
     </script>
 
