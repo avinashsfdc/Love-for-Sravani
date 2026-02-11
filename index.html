@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Valentine 💖</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: white;
+        }
+
+        h1 {
+            margin-top: 80px;
+            font-size: 42px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        #yesBtn {
+            background: #28a745;
+            left: 40%;
+            top: 70%;
+        }
+
+        #noBtn {
+            background: #dc3545;
+            left: 55%;
+            top: 70%;
+        }
+
+        /* Slideshow */
+        .slideshow {
+            width: 300px;
+            height: 400px;
+            margin: 20px auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .active {
+            opacity: 1;
+        }
+
+        /* Fireworks Canvas */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🎵 YouTube Background Song -->
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/nSDgHBxUbVQ?autoplay=1&loop=1&playlist=nSDgHBxUbVQ"
+frameborder="0"
+allow="autoplay">
+</iframe>
+
+<h1>Will you be my Valentine? 💖</h1>
+<p>You are my perfect love song 🎶</p>
+
+<!-- 🖼️ Slideshow -->
+<div class="slideshow">
+    <img class="slides active" src="photo1.jpg">
+    <img class="slides" src="photo2.jpg">
+    <img class="slides" src="photo3.jpg">
+</div>
+
+<button id="yesBtn" onclick="sayYes()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveButton()">No 😜</button>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+    // Moving NO button
+    function moveButton() {
+        var noBtn = document.getElementById("noBtn");
+        var x = Math.random() * (window.innerWidth - 100);
+        var y = Math.random() * (window.innerHeight - 100);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    // Slideshow logic
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slides");
+
+    setInterval(() => {
+        slides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add("active");
+    }, 2500);
+
+    // Fireworks Animation
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function random(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function createFirework(x, y) {
+        for (let i = 0; i < 100; i++) {
+            const angle = Math.random() * 2 * Math.PI;
+            const speed = random(2, 6);
+            const particle = {
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                alpha: 1
+            };
+
+            function animate() {
+                ctx.globalAlpha = particle.alpha;
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(particle.x, particle.y, 3, 3);
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.alpha -= 0.02;
+                if (particle.alpha > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+        }
+    }
+
+    function sayYes() {
+        document.body.innerHTML += `
+            <div style="margin-top:200px;font-size:36px;">
+                💖 That's my girlfriend 💖 <br><br>
+                Sravani Bollimuntha 😍 <br><br>
+                I love you chinni ❤️ <br><br>
+                Forever and Always ✨
+            </div>
+        `;
+
+        setInterval(() => {
+            createFirework(random(100, canvas.width - 100),
+                           random(100, canvas.height - 100));
+        }, 800);
+    }
+</script>
+
+</body>
+</html>
