@@ -12,6 +12,7 @@
             background-color: #ffe6f2;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         h1 {
@@ -66,6 +67,20 @@
             color: #cc0066;
             font-weight: bold;
         }
+
+        /* Falling hearts */
+        .heart {
+            position: fixed;
+            top: -10px;
+            color: red;
+            font-size: 25px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
     </style>
 </head>
 
@@ -92,12 +107,32 @@
     <script>
         function sayYes() {
             document.getElementById("response").innerHTML = "You made me the happiest person ❤️";
-            window.open("https://www.youtube.com/watch?v=2Vv-BfVoq4g&list=RD2Vv-BfVoq4g&start_radio=1", "_blank");
+
+            // Redirect after 2 seconds
+            setTimeout(() => {
+                window.location.href = "yes.html";
+            }, 2000);
         }
 
         function sayNo() {
             document.getElementById("response").innerHTML = "Ayyooo… but still I will wait for you 😔";
         }
+
+        // Falling hearts animation
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
     </script>
 
 </body>
