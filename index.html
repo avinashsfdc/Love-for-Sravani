@@ -78,9 +78,21 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        /* Hidden YouTube player */
+        /* Tiny YouTube player */
         #songFrame {
-            display: none;
+            width: 1px;
+            height: 1px;
+            border: none;
+        }
+
+        /* Surprise message */
+        #surpriseMessage {
+            margin-top: 30px;
+            font-size: 28px;
+            color: #d63384;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
         }
     </style>
 </head>
@@ -98,17 +110,18 @@
         <button id="noBtn" onmouseover="moveNo()">NO</button>
     </div>
 
-    <!-- Hidden YouTube Player -->
-    <iframe id="songFrame" width="0" height="0"
-        src="https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1">
-    </iframe>
+    <!-- YouTube Player -->
+    <iframe id="songFrame" allow="autoplay"></iframe>
+
+    <!-- Surprise Message -->
+    <div id="surpriseMessage">You just made me the happiest person ever ❤️</div>
 
     <!-- Photos Section -->
     <div class="photos">
-        <img src="photo1.Jpg" alt="Photo 1">
+        <img src="photo1.jpg" alt="Photo 1">
         <img src="photo2.jpg" alt="Photo 2">
         <img src="photo3.jpg" alt="Photo 3">
-       
+        <img src="photo4.jpg" alt="Photo 4">
     </div>
 
     <script>
@@ -132,14 +145,19 @@
             btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
         }
 
-        // YES button plays song on same page
+        // YES button plays song + shows surprise message
         function playSong() {
-            document.getElementById("songFrame").style.display = "block";
+            const frame = document.getElementById("songFrame");
+            frame.src = "https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1";
+
             alert("Yay! You said YES ❤️");
+
+            // Show surprise message with fade-in
+            setTimeout(() => {
+                document.getElementById("surpriseMessage").style.opacity = 1;
+            }, 800);
         }
     </script>
 
 </body>
 </html>
-
-
