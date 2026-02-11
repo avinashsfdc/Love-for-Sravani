@@ -72,26 +72,29 @@
             border: none;
         }
 
-        /* Surprise section */
-        #surpriseSection {
-            margin-top: 40px;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s ease-in-out;
-        }
-
+        /* Surprise message */
         #surpriseMessage {
-            font-size: 26px;
+            margin-top: 30px;
+            font-size: 28px;
             color: #d63384;
             font-weight: bold;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        /* Photos (hidden at first) */
+        .photos {
+            margin-top: 40px;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .photos img {
+            width: 250px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -112,9 +115,15 @@
     <!-- YouTube Player -->
     <iframe id="songFrame" allow="autoplay"></iframe>
 
-    <!-- Surprise Section (hidden at first) -->
-    <div id="surpriseSection">
-        <div id="surpriseMessage">You just made my whole world brighter ❤️</div>
+    <!-- Surprise Message -->
+    <div id="surpriseMessage">My love… you mean everything to me ❤️</div>
+
+    <!-- Photos Section (hidden at first) -->
+    <div class="photos" id="photoSection">
+        <img src="photo1.jpg" alt="Photo 1">
+        <img src="photo2.jpg" alt="Photo 2">
+        <img src="photo3.jpg" alt="Photo 3">
+        <img src="photo4.jpg" alt="Photo 4">
     </div>
 
     <script>
@@ -138,7 +147,7 @@
             btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
         }
 
-        // YES button: play song + show surprise section
+        // YES button: play song + show message + reveal photos
         function playSong() {
             const frame = document.getElementById("songFrame");
 
@@ -147,10 +156,13 @@
 
             alert("Yay! You said YES ❤️");
 
-            // Show surprise section
-            const section = document.getElementById("surpriseSection");
-            section.style.opacity = 1;
-            section.style.transform = "scale(1)";
+            // Show message
+            document.getElementById("surpriseMessage").style.opacity = 1;
+
+            // Reveal photos after 1 second
+            setTimeout(() => {
+                document.getElementById("photoSection").style.opacity = 1;
+            }, 1000);
         }
     </script>
 
